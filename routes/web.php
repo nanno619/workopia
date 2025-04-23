@@ -7,8 +7,17 @@ Route::get('/', function () {
 });
 
 Route::get('/jobs', function(){
-    return '<h1>Available Jobs</h1>';
+
+    return view('jobs.index');
 })->name('jobs'); // ->name() is NAMED ROUTE
+
+Route::get('/jobs/create', function(){
+
+    return view('jobs.create');
+})->name('jobs.create');
+
+
+/******************************************** */
 
 // Route Params
 Route::get('/posts/{id}', function(string $id){ //closure function. string $id is type-hint
