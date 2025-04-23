@@ -8,7 +8,14 @@ Route::get('/', function () {
 
 Route::get('/jobs', function(){
 
-    return view('jobs.index');
+    $title = 'Available Jobs';
+    $jobs = [
+        'Web Developer',
+        'Database Admin',
+        'Software Engineer',
+        'System Analyst',
+    ];
+    return view('jobs.index', compact('title', 'jobs'));
 })->name('jobs'); // ->name() is NAMED ROUTE
 
 Route::get('/jobs/create', function(){
