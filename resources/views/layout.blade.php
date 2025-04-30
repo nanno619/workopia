@@ -6,7 +6,7 @@
     <title>@yield('title', 'Workopia | Find & List Jobs')</title>
 </head>
 <body class="bg-gray-100">
-    <h1>Welcome to Workopia</h1>
+    @include('partials.navbar')
     <main class="container mx-auto p-4 mt-4">
         @yield('content')
     </main>
