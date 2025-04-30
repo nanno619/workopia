@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\View\View; // This is optional. it will make our code cleaner and less prone to errors
 
 class JobController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $jobs = [
             'Web Developer',
@@ -24,7 +25,7 @@ class JobController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         return view('jobs.create');
     }
@@ -32,7 +33,7 @@ class JobController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): String
     {
         $title = $request->input('title');
         $description = $request->input('description');
@@ -43,7 +44,7 @@ class JobController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): String
     {
         return "Showing Job $id";
     }
@@ -51,28 +52,28 @@ class JobController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id): String
     {
-        //
+        return 'Edit';
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): String
     {
-        //
+        return 'Update';
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): String
     {
-        //
+        return 'Destroy';
     }
 
-    public function share()
+    public function share(): String
     {
         return "Share";
     }
