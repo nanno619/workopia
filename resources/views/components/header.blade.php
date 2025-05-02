@@ -11,12 +11,7 @@
             <x-nav-link url="/register" :active="request()->is('register')">Register</x-nav-link>
             <x-nav-link url="/dashboard" :active="request()->is('dashboard')" icon="gauge">Dashboard</x-nav-link>
 
-            <a
-                href="{{ route('jobs.create') }}"
-                class="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded hover:shadow-md transition duration-300"
-            >
-                <i class="fa fa-edit"></i> Create Job
-            </a>
+            <x-button-link url="/jobs/create" icon="edit">Create Job</x-button-link>
         </nav>
         <button
             id="hamburger"
@@ -28,7 +23,7 @@
     <!-- Mobile Menu -->
     <nav
         id="mobile-menu"
-        class="hidden md:hidden bg-blue-900 text-white mt-5 pb-4 space-y-2"
+        class="md:hidden bg-blue-900 text-white mt-5 pb-4 space-y-2"
     >
         <a href="{{ route('jobs.index') }}" class="block px-4 py-2 hover:bg-blue-700 {{ request()->is('jobs') ? 'text-yellow-500' : '' }}"
             >All Jobs</a
