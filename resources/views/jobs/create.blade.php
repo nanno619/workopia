@@ -5,10 +5,20 @@
         @csrf
         <input
             type="text"
-            name="title"
-            id="title"
-            placeholder="Title"
+            name="keywords"
+            placeholder="Keywords"
+            class="w-full px-4 py-2 border rounded focus:outline-none"
         />
+
+        <textarea
+            type="text"
+            name="keywords"
+            cols="30"
+            rows="7"
+            placeholder="Keywords"
+            class="w-full px-4 py-2 border rounded focus:outline-none"
+        />
+        </textarea>
         <input type="text" name="description" id="description" placeholder="Description">
         <button type="submit">Submit</button>
     </form>
