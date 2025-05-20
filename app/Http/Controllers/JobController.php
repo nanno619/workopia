@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Job;
 use Illuminate\Http\Request;
 use Illuminate\View\View; // This is optional. it will make our code cleaner and less prone to errors
 
@@ -12,14 +13,11 @@ class JobController extends Controller
      */
     public function index(): View
     {
-        $jobs = [
-            'Web Developer',
-            'Database Admin',
-            'Software Engineer',
-            'System Analyst',
+        $data = [
+            'jobs' => Job::all(),
         ];
 
-        return view('jobs.index', compact('jobs'));
+        return view('jobs.index', $data);
     }
 
     /**
@@ -33,7 +31,7 @@ class JobController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): String
+    public function store(Request $request): string
     {
         $title = $request->input('title');
         $description = $request->input('description');
@@ -44,7 +42,7 @@ class JobController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id): String
+    public function show(string $id): string
     {
         return "Showing Job $id";
     }
@@ -52,7 +50,7 @@ class JobController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id): String
+    public function edit(string $id): string
     {
         return 'Edit';
     }
@@ -60,7 +58,7 @@ class JobController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): String
+    public function update(Request $request, string $id): string
     {
         return 'Update';
     }
@@ -68,13 +66,13 @@ class JobController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): String
+    public function destroy(string $id): string
     {
         return 'Destroy';
     }
 
-    public function share(): String
+    public function share(): string
     {
-        return "Share";
+        return 'Share';
     }
 }
