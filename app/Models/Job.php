@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Job extends Model
 {
@@ -27,5 +28,13 @@ class Job extends Model
         'company_description',
         'company_logo',
         'company_website',
+        'user_id',
     ];
+
+    // Eg: $jobListing->user  = ->user is from user()
+    // Relation to user
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class); // Job belongs to User class
+    }
 }
