@@ -9,6 +9,7 @@
             integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
             crossorigin="anonymous" referrerpolicy="no-referrer" />
         @vite('resources/css/app.css')
+        <script src="//unpkg.com/alpinejs" defer></script>
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     </head>
 
