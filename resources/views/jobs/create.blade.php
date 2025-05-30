@@ -8,7 +8,7 @@
         </h2>
         <form
             method="POST"
-            action="/jobs"
+            action="{{ route('jobs.store') }}"
             enctype="multipart/form-data"
         >
         @csrf
