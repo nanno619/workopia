@@ -63,28 +63,11 @@
 
             <x-inputs.text-area id="company_description" name="company_description" label="Company Description" placeholder="Enter Company Description"/>
 
-            <x-inputs.text id="company_website" name="company_website" label="Company Website" placeholder="Enter Company Website"/>
+            <x-inputs.text id="company_website" type="url" name="company_website" label="Company Website" placeholder="Enter Company Website"/>
 
             <x-inputs.text id="contact_phone" name="contact_phone" label="Contact Phone" placeholder="Enter Contact Phone"/>
 
             <x-inputs.text id="contact_email" name="contact_email" label="Contact Email" type="email" placeholder="Enter Contact Email"/>
-
-            <div class="mb-4">
-                <label class="block text-gray-700" for="company_logo"
-                    >Company Logo</label
-                >
-                <input
-                    id="company_logo"
-                    type="file"
-                    name="company_logo"
-                    class="w-full px-4 py-2 border rounded focus:outline-none @error('company_logo')
-                        border-red-500
-                    @enderror"
-                />
-                @error('company_logo')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
 
             <x-inputs.file id="company_logo" name="company_logo" label="Company Logo"/>
 
