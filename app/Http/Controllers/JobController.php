@@ -7,10 +7,13 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View; // This is optional. it will make our code cleaner and less prone to errors
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 // use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * @desc Show all job listings
      * @route GET /jobs
@@ -72,7 +75,6 @@ class JobController extends Controller
             'company_website' => 'nullable|url',
         ]);
 
-        // Hardcoded User ID
         $validatedData['user_id'] = auth()->user()->id;
 
         // Check for image
@@ -108,6 +110,9 @@ class JobController extends Controller
      */
     public function edit(Job $job): View
     {
+        // Check if user is authorized
+        $this->authorize('update', $job);
+
         $data = [
             'job' => $job,
         ];
@@ -121,6 +126,9 @@ class JobController extends Controller
      */
     public function update(Request $request, Job $job): RedirectResponse
     {
+        // Check if user is authorized
+        $this->authorize('update', $job);
+
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -167,6 +175,9 @@ class JobController extends Controller
      */
     public function destroy(Job $job): RedirectResponse
     {
+        // Check if user is authorized
+        $this->authorize('delete', $job);
+
         // If logo, then delete it
         if($job->company_logo){
             Storage::disk('public')->delete($job->company_logo);
