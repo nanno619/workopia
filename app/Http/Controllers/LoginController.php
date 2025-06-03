@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     /**
-     * @desc Show login form
-     * @route GET /login
+     * @desc    Show login form
+     * @route   GET /login
      */
     public function login(): View
     {
@@ -42,5 +42,19 @@ class LoginController extends Controller
         return back()->withErrors([
             'email' => 'The provided credentials does not match our records.',
         ])->onlyInput('email');
+    }
+
+    /**
+     * @desc    Logout user
+     * @route   POST /logout
+     */
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }
