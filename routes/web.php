@@ -12,7 +12,7 @@ Route::get('/', function () {
 //
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/jobs/share', [JobController::class, 'share']);
+Route::resource('jobs', JobController::class);
 
 Route::get('/register', [RegisterController::class, 'register'])->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
