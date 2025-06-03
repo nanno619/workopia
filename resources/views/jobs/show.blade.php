@@ -17,7 +17,9 @@
                             >Edit</a
                         >
                         <!-- Delete Form -->
-                        <form method="POST">
+                        <form method="POST" action="{{ route('jobs.destroy', $job->id) }}" onsubmit="return confirm ('Are you sure to delete this job?')">
+                            @csrf
+                            @method('DELETE')
                             <button
                                 type="submit"
                                 class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded"
