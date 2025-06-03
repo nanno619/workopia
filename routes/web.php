@@ -13,14 +13,34 @@ Route::get('/', function () {
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Route::resource('jobs', JobController::class);
-Route::resource('jobs', JobController::class)->middleware('auth')->only(['create','edit','update','destroy']);
 
-Route::resource('jobs', JobController::class)->except(['create','edit','update','destroy']);
+/**
+ *  Creates resource routes for actions that require authentication
+ *  ->only(['create','edit','update','destroy']) restricts to specific actions:
+ *  create - GET /jobs/create (show create form)
+ *  store - POST /jobs
+ *  edit - GET /jobs/{job}/edit (show edit form)
+ *  update - PUT/PATCH /jobs/{job} (process updates)
+ *  destroy - DELETE /jobs/{job} (delete job)
+**/
+Route::resource('jobs', JobController::class)->middleware('auth')->only(['create', 'store', 'edit', 'update', 'destroy']);
 
-Route::get('/register', [RegisterController::class, 'register'])->name('register');
-Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
-Route::get('/login', [LoginController::class, 'login'])->name('login');
-Route::post('/login', [LoginController::class, 'authenticate'])->name('login.authenticate');
+/**
+ *  Creates resource routes for public access (no authentication required)
+ *  This leaves only:
+ *  index - GET /jobs (list all jobs)
+ *  show - GET /jobs/{job} (show single job)
+ */
+Route::resource('jobs', JobController::class)->except(['create', 'store', 'edit', 'update', 'destroy']);
+
+// Guest middleware - if user already logged in, there is no point that the authenticted user can go to the login page. there is where guest middleware comes in. This middleware ensures only unauthenticated users can access this route
+Route::middleware('guest')->group(function() {
+    Route::get('/register', [RegisterController::class, 'register'])->name('register');
+    Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+    Route::get('/login', [LoginController::class, 'login'])->name('login')->middleware('guest');
+    Route::post('/login', [LoginController::class, 'authenticate'])->name('login.authenticate');
+});
+
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 /******* Helper */
