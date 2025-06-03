@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Storage;
 class JobController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @desc Show all job listings
+     * @route GET /jobs
      */
     public function index(): View
     {
@@ -23,7 +24,8 @@ class JobController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * @desc Show create job form
+     * @route GET /jobs/create
      */
     public function create(): View
     {
@@ -31,7 +33,8 @@ class JobController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @desc Save job to database
+     * @route POST /jobs
      */
     public function store(Request $request): RedirectResponse
     {
@@ -78,7 +81,8 @@ class JobController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @desc Display a single job listing
+     * @route GET /jobs/{$id}
      */
     public function show(Job $job): View
     {
@@ -88,7 +92,8 @@ class JobController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * @desc Show edit job form
+     * @route GET /jobs/{$id}/edit
      */
     public function edit(Job $job): View
     {
@@ -100,7 +105,8 @@ class JobController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @desc Update job listing
+     * @route PUT /jobs/{$id}
      */
     public function update(Request $request, Job $job): RedirectResponse
     {
@@ -145,7 +151,8 @@ class JobController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @desc Delete job listing
+     * @route DELETE /jobs/{$id}
      */
     public function destroy(Job $job): RedirectResponse
     {
@@ -157,10 +164,5 @@ class JobController extends Controller
         $job->delete();
 
         return redirect()->route('jobs.index')->with('success', 'Job Listing deleted successfully!');
-    }
-
-    public function share(): string
-    {
-        return 'Share';
     }
 }
