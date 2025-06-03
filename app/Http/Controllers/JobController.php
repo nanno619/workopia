@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View; // This is optional. it will make our code cleaner and less prone to errors
 use Illuminate\Support\Facades\Storage;
+// use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
@@ -27,8 +28,18 @@ class JobController extends Controller
      * @desc Show create job form
      * @route GET /jobs/create
      */
-    public function create(): View
+    public function create()
     {
+        /**
+         * Authorization
+         * Option 1
+         * It is a hassle to do this in every controller
+         */
+        // If not logged in
+        // if(!Auth::check()){
+        //     return redirect()->route('login');
+        // }
+
         return view('jobs.create');
     }
 
