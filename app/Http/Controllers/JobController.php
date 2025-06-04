@@ -21,7 +21,7 @@ class JobController extends Controller
     public function index(): View
     {
         $data = [
-            'jobs' => Job::paginate(3),
+            'jobs' => Job::latest()->paginate(9),
         ];
 
         return view('jobs.index', $data);

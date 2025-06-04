@@ -128,12 +128,19 @@
                 >Visit Website</a
             >
             @endif
-            <a
-                href=""
-                class="mt-10 bg-blue-500 hover:bg-blue-600 text-white font-bold w-full py-2 px-4 rounded-full flex items-center justify-center"
-                ><i class="fas fa-bookmark mr-3"></i> Bookmark
-                Listing</a
-            >
+            {{-- Bookmark button --}}
+            @guest
+            <p class="mt-10 bg-gray-200 text-gray-700 font-bold w-full py-2 px-4 rounded-full text-center">
+                <i class="fas fa-info-circle mr-3"></i>You must be logged in to bookmark the job
+            </p>
+            @else
+            <form action="{{ route('bookmarks.store', $job->id) }}" method="POST" class="mt-10">
+                @csrf
+                <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold w-full py-2 px-4 rounded-full flex items-center justify-center">
+                    <i class="fas fa-bookmark mr-3"></i> Bookmark Listing
+                </button>
+            </form>
+            @endguest
         </aside>
     </div>
 </x-layout>

@@ -8,6 +8,7 @@
             <x-nav-link url="/jobs" :active="request()->is('jobs')">All Jobs</x-nav-link>
             @auth
             <x-nav-link url="{{ route('bookmarks.index') }}" :active="request()->is('jobs/saved')">Saved Jobs</x-nav-link>
+            <x-logout-button />
             <div class="flex items-center space-x-3">
                 <a href="{{ route('dashboard') }}">
                     @if (Auth::user()->avatar)
