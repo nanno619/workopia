@@ -20,7 +20,7 @@ class DashboardController extends Controller
         $user = Auth::user();
 
         // Get the user listings
-        $jobs = Job::where('user_id', $user->id)->get();
+        $jobs = Job::where('user_id', $user->id)->with('applicants')->get();
 
         $data = [
             'user' => $user,
