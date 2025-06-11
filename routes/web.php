@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\JobController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ApplicantController;
+use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegisterController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -16,7 +16,7 @@ Route::get('/', function () {
 //
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Route::resource('jobs', JobController::class);
+Route::get('/jobs/search', [JobController::class, 'search'])->name('jobs.search');
 
 /**
  *  Creates resource routes for actions that require authentication
@@ -26,7 +26,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
  *  edit - GET /jobs/{job}/edit (show edit form)
  *  update - PUT/PATCH /jobs/{job} (process updates)
  *  destroy - DELETE /jobs/{job} (delete job)
-**/
+ **/
 Route::resource('jobs', JobController::class)->middleware('auth')->only(['create', 'store', 'edit', 'update', 'destroy']);
 
 /**
@@ -38,7 +38,7 @@ Route::resource('jobs', JobController::class)->middleware('auth')->only(['create
 Route::resource('jobs', JobController::class)->except(['create', 'store', 'edit', 'update', 'destroy']);
 
 // Guest middleware - if user already logged in, there is no point that the authenticted user can go to the login page. there is where guest middleware comes in. This middleware ensures only unauthenticated users can access this route
-Route::middleware('guest')->group(function() {
+Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisterController::class, 'register'])->name('register');
     Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
     Route::get('/login', [LoginController::class, 'login'])->name('login')->middleware('guest');
@@ -51,7 +51,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');
 
-Route::middleware('auth')->group(function() {
+Route::middleware('auth')->group(function () {
     Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
     Route::post('/bookmarks/{job}', [BookmarkController::class, 'store'])->name('bookmarks.store');
     Route::delete('/bookmarks/{job}', [BookmarkController::class, 'destroy'])->name('bookmarks.destroy');
@@ -86,13 +86,13 @@ Route::get('routes', function () {
 /******************************************** */
 
 // Route Params
-Route::get('/posts/{id}', function(string $id){ //closure function. string $id is type-hint
-    return "Post " . $id;
+Route::get('/posts/{id}', function (string $id) { // closure function. string $id is type-hint
+    return 'Post '.$id;
 })->whereNumber('id'); // Route constraints. URL: https://laravel.com/docs/12.x/routing#parameters-regular-expression-constraints
 
 // Multiple Route Params
-Route::get('/posts/{id}/comments/{commentId}', function(string $id, string $commentId){
-    return "Post " . $id . " Comment " . $commentId;
+Route::get('/posts/{id}/comments/{commentId}', function (string $id, string $commentId) {
+    return 'Post '.$id.' Comment '.$commentId;
 });
 
 /**
@@ -104,15 +104,15 @@ Route::get('/posts/{id}/comments/{commentId}', function(string $id, string $comm
  * Route::pattern('id', '[0-9]+');
  */
 
-
 /******************* ************************/
-Route::get('/test', function(){
+Route::get('/test', function () {
     $url = route('jobs');
+
     return "<a href='$url'>Click Me</a>";
 });
 
 // Retun JSON Data
-Route::get('/api/users', function(){
+Route::get('/api/users', function () {
     return [
         'name' => 'John Doe',
         'email' => 'john@example.com',
@@ -134,8 +134,6 @@ Route::get('/api/users', function(){
  * $middleware->validateCsrfTokens(except:['/submit']);
  * 3.Run this command
  * curl -X POST https://workopia.test/submit
- *
- *
  */
 // Route::post('/submit', function(){
 //     return 'Submitted';
@@ -153,6 +151,6 @@ Route::get('/api/users', function(){
  * curl -X DELETE https://workopia.test/submit
  * curl -X PUT https://workopia.test/submit
  */
-Route::any('/submit', function(){
+Route::any('/submit', function () {
     return 'Submitted';
 });

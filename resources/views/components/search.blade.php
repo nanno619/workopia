@@ -1,4 +1,4 @@
-<form class="block mx-5 space-y-2 md:mx-auto md:space-x-2">
+<form method="GET" action="{{ route('jobs.search') }}" class="block mx-5 space-y-2 md:mx-auto md:space-x-2">
     <input
         type="text"
         name="keywords"

@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\View\View; // This is optional. it will make our code cleaner and less prone to errors
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request; // This is optional. it will make our code cleaner and less prone to errors
+use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
+
 // use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
@@ -16,6 +17,7 @@ class JobController extends Controller
 
     /**
      * @desc Show all job listings
+     *
      * @route GET /jobs
      */
     public function index(): View
@@ -29,6 +31,7 @@ class JobController extends Controller
 
     /**
      * @desc Show create job form
+     *
      * @route GET /jobs/create
      */
     public function create()
@@ -48,6 +51,7 @@ class JobController extends Controller
 
     /**
      * @desc Save job to database
+     *
      * @route POST /jobs
      */
     public function store(Request $request): RedirectResponse
@@ -71,15 +75,14 @@ class JobController extends Controller
             'contact_phone' => 'nullable|string',
             'company_name' => 'required|string',
             'company_description' => 'nullable|string',
-            'company_logo' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048', //max = size
+            'company_logo' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048', // max = size
             'company_website' => 'nullable|url',
         ]);
 
         $validatedData['user_id'] = auth()->user()->id;
 
         // Check for image
-        if($request->hasFile('company_logo'))
-        {
+        if ($request->hasFile('company_logo')) {
             // Store the file and get path
             $path = $request->file('company_logo')->store('logos', 'public');
 
@@ -95,6 +98,7 @@ class JobController extends Controller
 
     /**
      * @desc Display a single job listing
+     *
      * @route GET /jobs/{$id}
      */
     public function show(Job $job): View
@@ -106,6 +110,7 @@ class JobController extends Controller
 
     /**
      * @desc Show edit job form
+     *
      * @route GET /jobs/{$id}/edit
      */
     public function edit(Job $job): View
@@ -122,6 +127,7 @@ class JobController extends Controller
 
     /**
      * @desc Update job listing
+     *
      * @route PUT /jobs/{$id}
      */
     public function update(Request $request, Job $job): RedirectResponse
@@ -146,15 +152,14 @@ class JobController extends Controller
             'contact_phone' => 'nullable|string',
             'company_name' => 'required|string',
             'company_description' => 'nullable|string',
-            'company_logo' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048', //max = size
+            'company_logo' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048', // max = size
             'company_website' => 'nullable|url',
         ]);
 
         // Check for image
-        if($request->hasFile('company_logo'))
-        {
+        if ($request->hasFile('company_logo')) {
             // Delete Old Logo
-            Storage::delete('public/logos/' . basename($job->company_logo));
+            Storage::delete('public/logos/'.basename($job->company_logo));
 
             // Store the file and get path
             $path = $request->file('company_logo')->store('logos', 'public');
@@ -171,6 +176,7 @@ class JobController extends Controller
 
     /**
      * @desc Delete job listing
+     *
      * @route DELETE /jobs/{$id}
      */
     public function destroy(Job $job): RedirectResponse
@@ -179,17 +185,28 @@ class JobController extends Controller
         $this->authorize('delete', $job);
 
         // If logo, then delete it
-        if($job->company_logo){
+        if ($job->company_logo) {
             Storage::disk('public')->delete($job->company_logo);
         }
 
         $job->delete();
 
         // Check if the request came from the dashboard
-        if(request()->query('from') == 'dashboard'){
+        if (request()->query('from') == 'dashboard') {
             return redirect()->route('dashboard')->with('success', 'Job Listing deleted successfully!');
         }
 
         return redirect()->route('jobs.index')->with('success', 'Job Listing deleted successfully!');
+    }
+
+    /**
+     * @desc Search jobs
+     *
+     * @route GET /jobs/search
+     */
+    public function search(Request $request)
+    {
+        // dd('sampai');
+        dd($request->all());
     }
 }
