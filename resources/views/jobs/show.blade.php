@@ -206,11 +206,7 @@
     const address = city + ', ' + state;
 
     // Geocode the address
-    fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-        address
-      )}.json?access_token=${mapboxgl.accessToken}`
-    )
+    fetch(`/geocode?address=${encodeURIComponent(address)}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.features.length > 0) {
