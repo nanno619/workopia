@@ -2,26 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\JobApplied;
 use App\Models\Applicant;
 use App\Models\Job;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ApplicantController extends Controller
 {
     /**
      * @desc    Store new job application
+     *
      * @route   POST /jobs/{job}/apply
      */
     public function store(Request $request, Job $job): RedirectResponse
     {
         // Check if the user already applied
         $existingApplication = Applicant::where('job_id', $job->id)
-                                            ->where('user_id', auth()->id())
-                                            ->exists();
+            ->where('user_id', auth()->id())
+            ->exists();
 
-        if($existingApplication)
-        {
+        if ($existingApplication) {
             return redirect()->back()->with('error', 'You already applied to this job');
         }
 
@@ -36,9 +38,8 @@ class ApplicantController extends Controller
         ]);
 
         // Handle resume upload
-        if($request->hasFile('resume'))
-        {
-            $path = $request->file('resume')->store('resume','public');
+        if ($request->hasFile('resume')) {
+            $path = $request->file('resume')->store('resume', 'public');
             $validatedData['resume_path'] = $path;
         }
 
@@ -48,11 +49,15 @@ class ApplicantController extends Controller
         $application->user_id = auth()->id();
         $application->save();
 
+        // Send email to owner
+        Mail::to($job->user->email)->send(new JobApplied);
+
         return redirect()->back()->with('success', 'Your application has been submitted');
     }
 
     /**
      * @desc    Delete job application
+     *
      * @route   DELETE /applicants/{applicant}
      */
     public function destroy($id): RedirectResponse
